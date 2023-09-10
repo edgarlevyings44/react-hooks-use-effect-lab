@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Question({ question, onAnswered }) {
   const [timeRemaining, setTimeRemaining] = useState(10);
 
-  // add useEffect code
+  useEffect(() => {
+    if (timeRemaining > 0) {
+      const timer = setTimeout(() => {
+        setTimeRemaining((prevTimeRemaining) => prevTimeRemaining - 1);
+      }, 1000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    } else {
+      onAnswered(false); // Automatically mark the question as incorrect when time runs out
+    }
+  }, [timeRemaining, onAnswered]);
 
   function handleAnswer(isCorrect) {
     setTimeRemaining(10);
